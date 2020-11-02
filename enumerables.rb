@@ -95,7 +95,9 @@ module Enumerable
       end
       counter
     else
-      length
+      arr = self if self.class == Array
+      arr = to_a if self.class == Range || Hash
+      return arr.length
     end
   end
 
@@ -111,20 +113,60 @@ module Enumerable
     new_a
   end
 
-  def my_inject(init = nil)
-    return enum_for(:my_each_with_index) unless block_given?
+  def my_inject(init = nil, arg = nil)
+    count = 0
+    if init.nil? && arg.nil?
+      ary = if is_a?(Range)
+              to_a
+            else
+              self
+            end
+      my_each_with_index do |element, index|
+        break if index + 1 == ary.length
 
-    if init
-      total = init
-      start_index = 0
+        count = if index.zero?
+                  yield(element, ary[index + 1])
+                else
+                  yield(count, ary[index + 1])
+                end
+      end
+    elsif arg.nil?
+      if init.class == Symbol
+        arg = init
+        ary = if self.class == Range
+                to_a
+              else
+                self
+              end
+        ary.my_each_with_index do |element, index|
+          break if index + 1 == ary.length
+
+          count = if index.zero?
+                    element.public_send arg.to_s, ary[index + 1]
+                  else
+                    count.public_send arg.to_s, ary[index + 1]
+                  end
+        end
+      else
+        count = init
+        my_each do |element|
+          count = yield(count, element)
+        end
+      end
     else
-      total = first
-      start_index = 1
+      count = init
+      my_each do |element|
+        count = count.public_send arg.to_s, element
+      end
     end
-
-    self[start_index...length].my_each do |element|
-      total = yield(total, element)
-    end
-    total
+    count
   end
+
+
+def multiply_els(arr)
+  arr.my_inject { |total, number| total * number }
+end
+
+
+
 end

@@ -21,14 +21,12 @@ range.my_each_with_index(&block)
 # my_select
 array.my_select.is_a?(Enumerator)
 array.my_select
-array.my_select { |n| n % 2 == 0 }
-range.my_select { |n| n % 2 == 0 }
+block = proc { |num| num < 4 }
+range.my_select(&block)
 
 # my_all?
 range.my_all?(&false_block)
-true_array.all?
 true_array.my_all?
-false_array.all?
 false_array.my_all?
 
 # my_any
@@ -39,23 +37,25 @@ range.my_any?(&false_block)
 array.my_any? { |n| n > 3 }
 array.my_any? { |n| n > 100 }
 
-%w[rabbit mouse dog].none? { |word| word.length == 5 }
-%w[rabbit mouse dog].none? { |word| word.length >= 4 }
+# my_none
+true_array = [1, true, 'hi', []]
+array = [1, 5, 5, 1, 3, 5, 1, 3, 2, 8, 5, 6, 3, 2, 2, 2, 5, 5]
+true_array.my_none?
+range.my_none?(&false_block)
+array.my_none?(String)
 
-%w[rabbit mouse dog].my_none? { |word| word.length == 5 }
-%w[rabbit mouse dog].my_none? { |word| word.length >= 4 }
 ary = [1, 2, 4, 2]
 
 ary.count
 ary.count(2)
-ary.count { |x| x.even? }
 
 ary.my_count
 ary.my_count(2)
-ary.my_count { |x| x.even? }
 
 p([1, 2, 3].map { |n| n * 3 })
 p([1, 2, 3].my_map { |n| n * 3 })
+block = proc { |num| num < 4 }
+range.my_map(&block)
 
 p([2, 3, 4, 5].inject { |result, item| result + item })
 p([2, 3, 4, 5].inject(0) { |result, item| result + item**2 })
