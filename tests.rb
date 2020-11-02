@@ -31,11 +31,13 @@ true_array.my_all?
 false_array.all?
 false_array.my_all?
 
-[1, 2, 3, 4, 5].any? { |n| n > 3 }
-[1, 2, 3, 4, 5].any? { |n| n > 100 }
-
-[1, 2, 3, 4, 5].my_any? { |n| n > 3 }
-[1, 2, 3, 4, 5].my_any? { |n| n > 100 }
+# my_any
+false_block = proc { |num| num > 9 }
+true_array = [1, true, 'hi', []]
+true_array.my_any?
+range.my_any?(&false_block)
+array.my_any? { |n| n > 3 }
+array.my_any? { |n| n > 100 }
 
 %w[rabbit mouse dog].none? { |word| word.length == 5 }
 %w[rabbit mouse dog].none? { |word| word.length >= 4 }

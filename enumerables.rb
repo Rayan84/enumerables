@@ -4,7 +4,7 @@ module Enumerable
     return enum_for(:my_each) unless block_given?
 
     arr = self if self.class == Array
-    arr = to_a if self.class == Range
+    arr = to_a if self.class == Range || Hash
     0.upto(arr.length - 1) do |index|
       yield(arr[index])
     end
@@ -16,7 +16,8 @@ module Enumerable
     return enum_for(:my_each_with_index) unless block_given?
 
     arr = self if self.class == Array
-    arr = to_a if self.class == Range
+    arr = to_a if self.class == Range || Hash
+
     0.upto(arr.size - 1) do |index|
       yield(arr[index], index)
     end
@@ -35,33 +36,40 @@ module Enumerable
   end
 
   # My_all?
-  def my_all?(arg = nil)
+  def my_all?(parameter = nil)
     if block_given?
       my_each { |item| return false if yield(item) == false }
       return true
-    elsif arg.nil?
+    elsif parameter.nil?
       my_each { |n| return false if n.nil? || n == false }
-    elsif !arg.nil? && (arg.is_a? Class)
-      my_each { |n| return false unless [n.class, n.class.superclass].include?(arg) }
-    elsif !arg.nil? && arg.class == Regexp
-      my_each { |n| return false unless arg.match(n) }
+    elsif !parameter.nil? && (parameter.is_a? Class)
+      my_each { |n| return false unless [n.class, n.class.superclass].include?(parameter) }
+    elsif !parameter.nil? && patameter.class == Regexp
+      my_each { |n| return false unless parameter.match(n) }
     else
-      my_each { |n| return false if n != arg }
+      my_each { |n| return false if n != parameter }
     end
     true
   end
 
   # my_any?
-
-  def my_any?
-    return enum_for(:my_any) unless block_given?
-
-    my_each do |element|
-      return true if yield(element)
+  def my_any?(parameter = nil)
+    if block_given?
+      my_each { |item| return true if yield(item) }
+      false
+    elsif parameter.nil?
+      my_each { |n| return true if n }
+    elsif !parameter.nil? && (parameter.is_a? Class)
+      my_each { |n| return true if [n.class, n.class.superclass].include?(parameter) }
+    elsif !parameter.nil? && parameter.class == Regexp
+      my_each { |n| return true if parameter.match(n) }
+    else
+      my_each { |n| return true if n == parameter }
     end
     false
   end
 
+  # none?
   def my_none?
     return enum_for(:my_none) unless block_given?
 
