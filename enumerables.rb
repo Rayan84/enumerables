@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/MethodLength
 module Enumerable
   # my_each
   def my_each
@@ -97,7 +98,7 @@ module Enumerable
     else
       arr = self if self.class == Array
       arr = to_a if self.class == Range || Hash
-      return arr.length
+      arr.length
     end
   end
 
@@ -162,11 +163,8 @@ module Enumerable
     count
   end
 
-
-def multiply_els(arr)
-  arr.my_inject { |total, number| total * number }
+  def multiply_els(arr)
+    arr.my_inject { |total, number| total * number }
+  end
 end
-
-
-
-end
+# rubocop:enable, Metrics/MethodLength
