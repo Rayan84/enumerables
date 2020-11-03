@@ -16,14 +16,14 @@ Metrics/CyclomaticComplexity:
 Metrics/PerceivedComplexity:
   Enabled: false
 Metrics/MethodLength:
-  Max: 50
+  Max: 1150
 Metrics/AbcSize:
-  Max: 50
+  Max: 1250
 Metrics/ClassLength:
-  Max: 150
+  Max: 1150
 Metrics/BlockLength:
   ExcludedMethods: ['describe']
-  Max: 30
+  Max: 1130
 
 Style/Documentation:
   Enabled: false

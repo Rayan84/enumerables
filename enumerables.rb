@@ -1,30 +1,41 @@
 module Enumerable
   # my_each
-  def my_eac
-    return enum_for(:my_each) unless block_given?
 
-    arr = self if self.class == Array
-    arr = to_a if self.class == Range || Hash
-    0.upto(arr.length - 1) do |index|
-      yield(arr[index])
+  def my_each
+    if block_given?
+      if is_a?(Range)
+        arr = to_a
+        arr.each do |value|
+          yield(value)
+        end
+      else
+        each do |value|
+          yield(value)
+        end
+      end
+      self
+    else
+      to_enum :my_each
     end
-    arr
   end
 
   # my_each_with_index
   def my_each_with_index
-    return enum_for(:my_each_with_index) unless block_given?
-
-    arr = self if self.class == Array
-    arr = to_a if self.class == Range || Hash
-
-    0.upto(arr.size - 1) do |index|
-      yield(arr[index], index)
+    if block_given?
+      arr = if is_a?(Range)
+              to_a
+            else
+              self
+            end
+      (0..arr.length - 1).each do |index|
+        yield(arr[index], index)
+      end
+      self
+    else
+      to_enum :my_each_with_index
     end
-    arr
   end
 
-  # my_select
   def my_select
     return enum_for(:my_select) unless block_given?
 
@@ -36,20 +47,16 @@ module Enumerable
   end
 
   # My_all?
-  def my_all?(parameter = nil)
+  def my_all?(args = nil)
     if block_given?
-      my_each { |item| return false if yield(item) == false }
-      return true
-    elsif parameter.nil?
-      my_each { |n| return false if n.nil? || n == false }
-    elsif !parameter.nil? && (parameter.is_a? Class)
-      my_each { |n| return false unless [n.class, n.class.superclass].include?(parameter) }
-    elsif !parameter.nil? && patameter.class == Regexp
-      my_each { |n| return false unless parameter.match(n) }
+      counter_false = 0
+      my_each { |num| counter_false += 1 unless yield num }
+      counter_false.zero?
+    elsif args.nil?
+      my_all? { |num| num }
     else
-      my_each { |n| return false if n != parameter }
+      my_all? { |num| args === num }
     end
-    true
   end
 
   # my_any?
@@ -70,11 +77,15 @@ module Enumerable
   end
 
   # none?
-  def my_none?
-    return enum_for(:my_none) unless block_given?
-
-    my_each do |element|
-      return false if yield(element)
+  def my_none?(args = nil)
+    if block_given?
+      counter_true = 0
+      my_each { |num| counter_true += 1 if yield num }
+      counter_true.zero?
+    elsif args.nil?
+      my_none? { |num| num }
+    else
+      my_none? { |num| args === num }
     end
   end
 
@@ -101,16 +112,20 @@ module Enumerable
     end
   end
 
-  def my_map(item = nil)
-    new_a = []
-    my_each do |element|
-      new_a << if block_given?
-                 yield(element)
-               else
-                 item.call(element)
-               end
+  def my_map(proc1 = nil)
+    if block_given?
+      new_arr = []
+      my_each do |element|
+        new_arr << if proc1.nil?
+                     yield(element)
+                   else
+                     proc1.call(element)
+                   end
+      end
+      new_arr
+    else
+      to_enum :my_map
     end
-    new_a
   end
 
   def my_inject(init = nil, arg = nil)
@@ -162,7 +177,7 @@ module Enumerable
     count
   end
 
-  def multiply_els(arr)
-    arr.my_inject { |total, number| total * number }
+  def multiply_els(my_array)
+    my_array.my_inject(:*)
   end
 end
