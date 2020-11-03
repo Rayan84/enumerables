@@ -3,6 +3,8 @@ In this project, I have used enumerable module that gets mixed into the Array an
 
 # :hammer: Built With
 * Ruby
+* Atom
+* Robocop
 
 #  :bust_in_silhouette: Worked on this challenge:
 
