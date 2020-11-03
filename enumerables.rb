@@ -113,7 +113,7 @@ module Enumerable
     end
     new_a
   end
-
+  # rubocop:disable_block ...
   def my_inject(init = nil, arg = nil)
     count = 0
     if init.nil? && arg.nil?
@@ -168,4 +168,3 @@ module Enumerable
   end
 end
 # rubocop:enable, Metrics/MethodLength
-# rubocop:disable_block ...
