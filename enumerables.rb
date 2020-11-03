@@ -168,3 +168,4 @@ module Enumerable
   end
 end
 # rubocop:enable, Metrics/MethodLength
+# rubocop:disable_block ...
