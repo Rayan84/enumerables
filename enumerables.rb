@@ -1,7 +1,6 @@
-# rubocop:disable Metrics/MethodLength
 module Enumerable
   # my_each
-  def my_each
+  def my_eac
     return enum_for(:my_each) unless block_given?
 
     arr = self if self.class == Array
@@ -113,7 +112,7 @@ module Enumerable
     end
     new_a
   end
-  # rubocop:disable_block ...
+
   def my_inject(init = nil, arg = nil)
     count = 0
     if init.nil? && arg.nil?
@@ -167,4 +166,3 @@ module Enumerable
     arr.my_inject { |total, number| total * number }
   end
 end
-# rubocop:enable, Metrics/MethodLength
