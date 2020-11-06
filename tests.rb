@@ -1,7 +1,3 @@
-array = [1, 5, 5, 1, 3, 5, 1, 3, 2, 8, 5, 6, 3, 2]
-true_array = [1, true, 'hi', []]
-false_array = [1, false, 'hi', []]
-false_block = proc { |num| num > 9 }
 
 # my_each
 range = Range.new(1, 50)
