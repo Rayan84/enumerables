@@ -24,6 +24,8 @@ Metrics/ClassLength:
 Metrics/BlockLength:
   ExcludedMethods: ['describe']
   Max: 1130
+Metrics/BlockNesting:
+  Max: 10
 
 Style/Documentation:
   Enabled: false

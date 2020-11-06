@@ -112,26 +112,22 @@ module Enumerable
     arr = self if self.class != Range
     if block_given?
       arr.length.times do |i|
-        return false if yield(arr[i]) == false
+        return false if yield(arr[i]) == true
+      end
+    elsif !arg.nil?
+      arr.length.times do |i|
+        if arg.class == Integer
+          return false if arr[i].to_s.include?(arg.to_s)
+        elsif arg.class == Class
+          return true unless arr[i].class == arg
+        else
+          return true unless arr[i].to_s.include?(arg.source)
+        end
       end
     else
-      puts 'block was not given'
-      puts arr.class
-      puts arg.class
-      if arg.class == Regexp
-        arr.length.times do |i|
-          unless arr[i].to_s.include?(arg.source)
-            puts(" array item #{arr[i]} doesn't equal argument #{arg.source}, rendering false")
-            return false
-          end
-        end
-      else
-        arr.length.times do |i|
-          if arr[i] == false || arr[i].nil?
-            puts arr[i]
-            return false
-          end
-        end
+      puts 'Argument not given'
+      arr.length.times do |i|
+        return false unless arr[i] == false || arr[i].nil?
       end
     end
     true
@@ -176,53 +172,29 @@ module Enumerable
     end
   end
 
-  def my_inject(init = nil, arg = nil)
-    count = 0
-    if init.nil? && arg.nil?
-      ary = if is_a?(Range)
-              to_a
-            else
-              self
-            end
-      my_each_with_index do |element, index|
-        break if index + 1 == ary.length
+  def my_inject(*arg)
+    array = to_a
+    arg1 = arg[0]
+    arg2 = arg[1]
 
-        count = if index.zero?
-                  yield(element, ary[index + 1])
-                else
-                  yield(count, ary[index + 1])
-                end
-      end
-    elsif arg.nil?
-      if init.class == Symbol
-        arg = init
-        ary = if self.class == Range
-                to_a
-              else
-                self
-              end
-        ary.my_each_with_index do |element, index|
-          break if index + 1 == ary.length
+    both_args = arg1 && arg2
+    only_one_arg = arg1 && !arg2
+    no_arg = !arg1
 
-          count = if index.zero?
-                    element.public_send arg.to_s, ary[index + 1]
-                  else
-                    count.public_send arg.to_s, ary[index + 1]
-                  end
-        end
-      else
-        count = init
-        my_each do |element|
-          count = yield(count, element)
-        end
-      end
+    raise LocalJumpError if !block_given? && no_arg
+
+    result = both_args || (only_one_arg && block_given?) ? arg1 : array.first
+
+    if block_given?
+      array.drop(1).my_each { |next_element| result = yield(result, next_element) } if no_arg
+
+      array.my_each { |next_element| result = yield(result, next_element) } if only_one_arg
     else
-      count = init
-      my_each do |element|
-        count = count.public_send arg.to_s, element
-      end
+      array.drop(1).my_each { |next_element| result = result.send(arg1, next_element) } if only_one_arg
+
+      array.my_each { |next_element| result = result.send(arg2, next_element) } if both_args
     end
-    count
+    result
   end
 
   def multiply_els(my_array)
