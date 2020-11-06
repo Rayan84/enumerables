@@ -8,7 +8,7 @@ AllCops:
   DisplayCopNames: true
 
 Layout/LineLength:
-  Max: 120
+  Max: 1120
 Metrics/ModuleLength:
   Enabled: false
 Metrics/CyclomaticComplexity:

@@ -1,22 +1,27 @@
 array = [1, 5, 5, 1, 3, 5, 1, 3, 2, 8, 5, 6, 3, 2]
 true_array = [1, true, 'hi', []]
 false_array = [1, false, 'hi', []]
-block = proc { |num| num < 4 }
 false_block = proc { |num| num > 9 }
-range = Range.new(1, 50)
 
 # my_each
-array.my_each.is_a?(Enumerator)
+range = Range.new(1, 50)
+block = proc { |num| num < 4 }
+array.my_each.is_a?(Enumerator) # must return true
 my_each_result = []
-array.my_each { |item| my_each_result << item * 2 }
 range.my_each { |item| my_each_result << item * 2 }
+range.my_each { |item| item > 6 } # 5..50  my_each when a block is given when self is a range returns the range itself
+# after calling the given block
+# once for each element in self
+range.my_each(&block) # 5..50
 print "#my_each result: #{my_each_result}\n"
 
 # my_each_with_index
+block = proc { |num| num > 4 }
+range = 5..50
 array.my_each_with_index.is_a?(Enumerator)
 [4, 23, 58, 29, 10, 28, 34, 95, 2].my_each_with_index { |item, index| p [item, index] }
-range = (5..50)
-range.my_each_with_index(&block)
+range.my_each_with_index(&block) # 5..50 my_each_with_index when a block is given when self is a
+# range returns the range itself after calling the given block once for each element in self
 
 # my_select
 array.my_select.is_a?(Enumerator)
@@ -25,9 +30,12 @@ block = proc { |num| num < 4 }
 range.my_select(&block)
 
 # my_all?
-range.my_all?(&false_block)
-true_array.my_all?
-false_array.my_all?
+[4, 2, 2, 3].my_all? is_a? Enumerator # true
+[1, 2, 3, 4, 5].my_all? { |num| num > 0 } # true
+[1, 2, 3, 4, 5].my_all? { |num| num < 0 } # false
+%w[duck deer dog birds].my_all?(/d/) # true
+%w[duck deer dog birds].my_all?(/g/) # false
+(5..50).my_all?(/5/) # false
 
 # my_any
 false_block = proc { |num| num > 9 }

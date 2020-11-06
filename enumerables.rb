@@ -47,16 +47,46 @@ module Enumerable
   end
 
   # My_all?
-  def my_all?(args = nil)
+  def my_all?(arg = nil)
+    arr = to_a if self.class == Range
+    arr = self if self.class != Range
     if block_given?
-      counter_false = 0
-      my_each { |num| counter_false += 1 unless yield num }
-      counter_false.zero?
-    elsif args.nil?
-      my_all? { |num| num }
+      arr.length.times do |i|
+        return false if yield(arr[i]) == false
+      end
     else
-      my_all? { |num| args === num }
+      puts 'block was not given'
+      puts "self class is #{arr.class}"
+      puts "argument class is #{arg.class}"
+      if !arg.nil?
+        arr.length.times do |i|
+          if arg.class == Integer
+            unless arr[i].to_s.include?(arg.to_s)
+              puts(" array item #{arr[i]} doesn't equal argument #{arg}, rendering false")
+              return false
+            end
+          elsif arg.class == Class
+            unless arr[i].class == arg
+              puts(" array item #{arr[i]} doesn't equal argument #{arg}, rendering false")
+              return false
+            end
+          else
+            unless arr[i].to_s.include?(arg.source)
+              puts(" array item #{arr[i]} doesn't equal argument #{arg.source}, rendering false")
+              return false
+            end
+          end
+        end
+      else
+        arr.length.times do |i|
+          if arr[i] == false || arr[i].nil?
+            puts arr[i]
+            return false
+          end
+        end
+      end
     end
+    true
   end
 
   # my_any?
@@ -77,16 +107,34 @@ module Enumerable
   end
 
   # none?
-  def my_none?(args = nil)
+  def my_none?(arg = nil)
+    arr = to_a if self.class == Range
+    arr = self if self.class != Range
     if block_given?
-      counter_true = 0
-      my_each { |num| counter_true += 1 if yield num }
-      counter_true.zero?
-    elsif args.nil?
-      my_none? { |num| num }
+      arr.length.times do |i|
+        return false if yield(arr[i]) == false
+      end
     else
-      my_none? { |num| args === num }
+      puts 'block was not given'
+      puts arr.class
+      puts arg.class
+      if arg.class == Regexp
+        arr.length.times do |i|
+          unless arr[i].to_s.include?(arg.source)
+            puts(" array item #{arr[i]} doesn't equal argument #{arg.source}, rendering false")
+            return false
+          end
+        end
+      else
+        arr.length.times do |i|
+          if arr[i] == false || arr[i].nil?
+            puts arr[i]
+            return false
+          end
+        end
+      end
     end
+    true
   end
 
   def my_count(item = nil)
