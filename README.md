@@ -8,6 +8,9 @@ In this project, I have used enumerable module that gets mixed into the Array an
 
 #  :bust_in_silhouette: Worked on this challenge:
 
+# Screenshot
+<img src='./screenshot.png'>
+
 ## Rayan Rassam
 * Github:[@Rayan84](https://github.com/Rayan84)
 * Twitter:[@Rayan65096267](https://twitter.com/Rayan65096267)
@@ -16,6 +19,6 @@ In this project, I have used enumerable module that gets mixed into the Array an
 ## Credits
 The original project is by Odin[](https://www.theodinproject.com/courses/ruby-programming/lessons/bubble-sort)
 
-## Contributing
+## Contribution
 Contributions, issues and feature requests are welcome!
 Feel free to check the [Issue](https://github.com/Rayan84/Bubble_sort/issues) and help me improve!
