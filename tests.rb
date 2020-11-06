@@ -31,8 +31,8 @@ range.my_select(&block)
 
 # my_all?
 [4, 2, 2, 3].my_all? is_a? Enumerator # true
-[1, 2, 3, 4, 5].my_all? { |num| num > 0 } # true
-[1, 2, 3, 4, 5].my_all? { |num| num < 0 } # false
+[1, 2, 3, 4, 5].my_all? { |num| num.positive? } # true
+[1, 2, 3, 4, 5].my_all? { |num| num.negative? } # false
 %w[duck deer dog birds].my_all?(/d/) # true
 %w[duck deer dog birds].my_all?(/g/) # false
 (5..50).my_all?(/5/) # false
