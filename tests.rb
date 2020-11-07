@@ -25,10 +25,12 @@ block = proc { |num| num < 4 }
 range.my_select(&block)
 
 # my_all?
-[4, 2, 2, 3].my_all? is_a? Enumerator # true
+[4, 2, 2, 3].my_all?.is_a?(Enumerator) # false
 [1, 2, 3, 4, 5].my_all?(&:positive?) # true
 [1, 2, 3, 4, 5].my_all?(&:negative?) # false
 [1, 2, 3, 4, 5].my_all?(Numeric) # true
+[1, 2, 3, 4, 5].my_all?(Integer) # true
+[1, 2i, 3.14].my_all?(Numeric) # true
 %w[duck deer dog birds].my_all?(/d/) # true
 %w[duck deer dog birds].my_all?(/g/) # false
 (5..50).my_all?(/5/) # false
@@ -42,14 +44,21 @@ array.my_any? { |n| n > 3 }
 array.my_any? { |n| n > 100 }
 
 # my_none
-
 [1, 2, 3, 4, 5].my_none?(Numeric) # false
 [1, true, 'hi', []].my_none? # false
-(5..50).my_none?(&false_block)
 [1, 5, 2, 2, 5, 5].my_none?(String) # true
+[1, 2, 3, 4, 5].my_none?(Integer) # false
+[1, 2i, 3.14].my_none?(Numeric) # false
 %w[dog cat monkey].my_none?(/d/) # false
 %w[bear cat monkey].my_none?(/d/) # true
-ary = [1, 2, 4, 2]
+
+[1, 2, 3, 4, 5].none?(Numeric) # false
+[1, true, 'hi', []].none? # false
+[1, 5, 2, 2, 5, 5].none?(String) # true
+[1, 2, 3, 4, 5].none?(Integer) # false
+[1, 2i, 3.14].none?(Numeric) # false
+%w[dog cat monkey].none?(/d/) # false
+%w[bear cat monkey].none?(/d/) # true
 
 # count
 ary.count
@@ -57,14 +66,15 @@ ary.count(2)
 ary.my_count
 ary.my_count(2)
 
+# map
 p([1, 2, 3].map { |n| n * 3 })
 p([1, 2, 3].my_map { |n| n * 3 })
 block = proc { |num| num < 4 }
 range.my_map(&block)
 
+# inject
 p([2, 3, 4, 5].inject { |result, item| result + item })
 p([2, 3, 4, 5].inject(0) { |result, item| result + item**2 })
-
 p([2, 3, 4, 5].my_inject { |result, item| result + item })
 p([2, 3, 4, 5].my_inject(0) { |result, item| result + item**2 })
 
