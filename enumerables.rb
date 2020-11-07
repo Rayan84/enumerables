@@ -59,9 +59,16 @@ module Enumerable
               return false
             end
           elsif arg.class == Class
+            if arg == Numeric || arg == Integer
+              unless arr[i].class == Numeric || arr[i].class == Integer
+              return false
+              end
+
+            else
             unless arr[i].class == arg
               puts(" array item #{arr[i]} doesn't equal argument #{arg}, rendering false")
               return false
+            end
             end
           else
             unless arr[i].to_s.include?(arg.source)
