@@ -42,12 +42,11 @@ array.my_any? { |n| n > 3 }
 array.my_any? { |n| n > 100 }
 
 # my_none
-true_array = [1, true, 'hi', []]
-array = [1, 5, 5, 1, 3, 5, 1, 3, 2, 8, 5, 6, 3, 2, 2, 2, 5, 5]
+
 [1, 2, 3, 4, 5].my_none?(Numeric) # false
-true_array.my_none?
-range.my_none?(&false_block)
-array.my_none?(String)
+[1, true, 'hi', []].my_none? # false
+(5..50).my_none?(&false_block)
+[1, 5, 2, 2, 5, 5].my_none?(String) # true
 %w[dog cat monkey].my_none?(/d/) # false
 %w[bear cat monkey].my_none?(/d/) # true
 ary = [1, 2, 4, 2]

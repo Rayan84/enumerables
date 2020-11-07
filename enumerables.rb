@@ -59,7 +59,7 @@ module Enumerable
               return false
             end
           elsif arg.class == Class
-            if arg == Numeric || arg == Integer
+            if [Numeric, Integer].include?(arg)
               return false unless arr[i].class == Numeric || arr[i].class == Integer
 
             else
@@ -117,17 +117,17 @@ module Enumerable
         if arg.class == Integer
           return false if arr[i].to_s.include?(arg.to_s)
         elsif arg.class == Class
-          if arg == Numeric || arg == Integer
+          if [Numeric, Integer].include?(arg)
 
             return false if arr[i].class == Numeric || arr[i].class == Integer
           else
-            unless arr[i].class == arg
+            unless arr[i].class != arg
               puts(" array item #{arr[i]} doesn't equal argument #{arg}, rendering false")
               return false
             end
           end
-        else
-          return false if arr[i].to_s.include?(arg.source)
+        elsif arr[i].to_s.include?(arg.source)
+          return false
         end
       end
     else
