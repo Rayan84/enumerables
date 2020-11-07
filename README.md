@@ -6,11 +6,10 @@ In this project, I have used enumerable module that gets mixed into the Array an
 * Atom
 * Robocop
 
-#  :bust_in_silhouette: Worked on this challenge:
-
 # Screenshot
 <img src='./screenshot.png'>
 
+#  :bust_in_silhouette: Worked on this challenge:
 ## Rayan Rassam
 * Github:[@Rayan84](https://github.com/Rayan84)
 * Twitter:[@Rayan65096267](https://twitter.com/Rayan65096267)
