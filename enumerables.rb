@@ -20,20 +20,13 @@ module Enumerable
   end
 
   # my_each_with_index
-  def my_each_with_index
-    if block_given?
-      arr = if is_a?(Range)
-              to_a
-            else
-              self
-            end
-      (0..arr.length - 1).each do |index|
-        yield(arr[index], index)
-      end
-      self
-    else
-      to_enum :my_each_with_index
+  def my_each_with_index()
+    return to_enum(:my_each_with_index) unless block_given?
+
+    size.times do |i|
+      yield(to_a[i], i)
     end
+    self
   end
 
   def my_select
