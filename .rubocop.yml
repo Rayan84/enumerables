@@ -1,0 +1,62 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - 'Guardfile'
+    - 'Rakefile'
+
+  DisplayCopNames: true
+
+Layout/LineLength:
+  Max: 1120
+Metrics/ModuleLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+Metrics/MethodLength:
+  Max: 1150
+Metrics/AbcSize:
+  Max: 1250
+Metrics/ClassLength:
+  Max: 1150
+Metrics/BlockLength:
+  ExcludedMethods: ['describe']
+  Max: 1130
+Metrics/BlockNesting:
+  Max: 10
+
+Style/Documentation:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/EachForSimpleLoop:
+  Enabled: false
+Style/AndOr:
+  Enabled: false
+Style/DefWithParentheses:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
+Layout/HashAlignment:
+  EnforcedColonStyle: key
+Layout/ExtraSpacing:
+  AllowForAlignment: false
+Layout/MultilineMethodCallIndentation:
+  Enabled: true
+  EnforcedStyle: indented
+Lint/RaiseException:
+  Enabled: false
+Lint/StructNewOverride:
+  Enabled: false
+Style/HashEachMethods:
+  Enabled: false
+Style/HashTransformKeys:
+  Enabled: false
+Style/HashTransformValues:
+  Enabled: false
+
+Style/CaseEquality:
+  Enabled: false
