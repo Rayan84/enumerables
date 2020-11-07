@@ -49,7 +49,7 @@ true_array.my_none?
 range.my_none?(&false_block)
 array.my_none?(String)
 %w[dog cat monkey].my_none?(/d/) # false
-%w[bear cat monkey].my_none?(/d/) #true
+%w[bear cat monkey].my_none?(/d/) # true
 ary = [1, 2, 4, 2]
 
 # count

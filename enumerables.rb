@@ -60,15 +60,13 @@ module Enumerable
             end
           elsif arg.class == Class
             if arg == Numeric || arg == Integer
-              unless arr[i].class == Numeric || arr[i].class == Integer
-              return false
-              end
+              return false unless arr[i].class == Numeric || arr[i].class == Integer
 
             else
-            unless arr[i].class == arg
-              puts(" array item #{arr[i]} doesn't equal argument #{arg}, rendering false")
-              return false
-            end
+              unless arr[i].class == arg
+                puts(" array item #{arr[i]} doesn't equal argument #{arg}, rendering false")
+                return false
+              end
             end
           else
             unless arr[i].to_s.include?(arg.source)
@@ -123,10 +121,10 @@ module Enumerable
 
             return false if arr[i].class == Numeric || arr[i].class == Integer
           else
-          unless arr[i].class == arg
-            puts(" array item #{arr[i]} doesn't equal argument #{arg}, rendering false")
-            return false
-          end
+            unless arr[i].class == arg
+              puts(" array item #{arr[i]} doesn't equal argument #{arg}, rendering false")
+              return false
+            end
           end
         else
           return false if arr[i].to_s.include?(arg.source)
