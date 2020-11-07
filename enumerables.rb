@@ -202,8 +202,8 @@ module Enumerable
     end
     result
   end
+end
 
-  def multiply_els(my_array)
-    my_array.my_inject(:*)
-  end
+def multiply_els(my_array)
+  my_array.my_inject(:*)
 end
